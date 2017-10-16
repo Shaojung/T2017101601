@@ -2,18 +2,22 @@ package com.example.teacher.t2017101601;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    TextView tv1, tv2;
+    TextView tv1, tv2, tv3;
+    Handler hander;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tv1 = (TextView) findViewById(R.id.textView);
         tv2 = (TextView) findViewById(R.id.textView2);
+        tv3 = (TextView) findViewById(R.id.textView3);
+        hander = new Handler();
     }
     public void click1(View v)
     {
@@ -41,6 +45,31 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             tv2.setText(String.valueOf(i));
+                        }
+                    });
+                    i--;
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                } while (i>=0);
+
+            }
+        }.start();
+    }
+    public void click3(View v)
+    {
+        new Thread(){
+            int i = 5;
+            @Override
+            public void run() {
+                super.run();
+                do {
+                    hander.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            tv3.setText(String.valueOf(i));
                         }
                     });
                     i--;
