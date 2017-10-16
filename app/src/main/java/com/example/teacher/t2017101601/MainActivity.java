@@ -1,5 +1,6 @@
 package com.example.teacher.t2017101601;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -82,5 +83,19 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }.start();
+    }
+    public void click4(View v)
+    {
+        MyAsyncTask task = new MyAsyncTask();
+        task.execute(5);
+    }
+}
+
+class MyAsyncTask extends AsyncTask<Integer, Integer, String>
+{
+
+    @Override
+    protected String doInBackground(Integer... integers) {
+        return null;
     }
 }
