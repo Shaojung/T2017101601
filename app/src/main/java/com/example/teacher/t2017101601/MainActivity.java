@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     TextView tv1, tv2, tv3, tv4;
+    MyAsyncTask task;
     Handler hander;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         tv2 = (TextView) findViewById(R.id.textView2);
         tv3 = (TextView) findViewById(R.id.textView3);
         tv4 = (TextView) findViewById(R.id.textView4);
+        task = new MyAsyncTask(tv4);
         hander = new Handler();
     }
     public void click1(View v)
@@ -88,14 +90,19 @@ public class MainActivity extends AppCompatActivity {
     }
     public void click4(View v)
     {
-        MyAsyncTask task = new MyAsyncTask(tv4);
+
         task.execute(5);
+    }
+    public void click5(View v)
+    {
+        task.cancel(false);
     }
 }
 
 class MyAsyncTask extends AsyncTask<Integer, Integer, String>
 {
     TextView tv;
+    boolean isCanceled = false;
     public MyAsyncTask(TextView tv)
     {
         this.tv = tv;
@@ -114,6 +121,10 @@ class MyAsyncTask extends AsyncTask<Integer, Integer, String>
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            if (isCanceled == true)
+            {
+                break;
+            }
         }
         return "OK";
     }
@@ -128,5 +139,11 @@ class MyAsyncTask extends AsyncTask<Integer, Integer, String>
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         Log.d("TASK", s);
+    }
+
+    @Override
+    protected void onCancelled() {
+        super.onCancelled();
+        // isCanceled = true;
     }
 }
