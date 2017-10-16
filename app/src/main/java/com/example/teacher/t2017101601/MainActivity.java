@@ -110,4 +110,10 @@ class MyAsyncTask extends AsyncTask<Integer, Integer, String>
         }
         return "OK";
     }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+        Log.d("TASK", s);
+    }
 }
