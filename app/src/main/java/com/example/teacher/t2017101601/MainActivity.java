@@ -95,14 +95,14 @@ public class MainActivity extends AppCompatActivity {
     }
     public void click5(View v)
     {
-        task.cancel(false);
+        task.cancel(true);
     }
 }
 
 class MyAsyncTask extends AsyncTask<Integer, Integer, String>
 {
     TextView tv;
-    boolean isCanceled = false;
+
     public MyAsyncTask(TextView tv)
     {
         this.tv = tv;
@@ -117,11 +117,11 @@ class MyAsyncTask extends AsyncTask<Integer, Integer, String>
             Log.d("TASK", "i:" + i);
             publishProgress(i);
             try {
-                Thread.sleep(500);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (isCanceled == true)
+            if (this.isCancelled() == true)
             {
                 break;
             }
@@ -142,8 +142,14 @@ class MyAsyncTask extends AsyncTask<Integer, Integer, String>
     }
 
     @Override
+    protected void onCancelled(String s) {
+        super.onCancelled(s);
+
+    }
+
+    @Override
     protected void onCancelled() {
         super.onCancelled();
-        // isCanceled = true;
+
     }
 }
