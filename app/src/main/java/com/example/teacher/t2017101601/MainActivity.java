@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    TextView tv1, tv2, tv3;
+    TextView tv1, tv2, tv3, tv4;
     Handler hander;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         tv1 = (TextView) findViewById(R.id.textView);
         tv2 = (TextView) findViewById(R.id.textView2);
         tv3 = (TextView) findViewById(R.id.textView3);
+        tv4 = (TextView) findViewById(R.id.textView4);
         hander = new Handler();
     }
     public void click1(View v)
@@ -87,13 +88,18 @@ public class MainActivity extends AppCompatActivity {
     }
     public void click4(View v)
     {
-        MyAsyncTask task = new MyAsyncTask();
+        MyAsyncTask task = new MyAsyncTask(tv4);
         task.execute(5);
     }
 }
 
 class MyAsyncTask extends AsyncTask<Integer, Integer, String>
 {
+    TextView tv;
+    public MyAsyncTask(TextView tv)
+    {
+        this.tv = tv;
+    }
 
     @Override
     protected String doInBackground(Integer... integers) {
@@ -102,6 +108,7 @@ class MyAsyncTask extends AsyncTask<Integer, Integer, String>
         for(i=n;i>=0;i--)
         {
             Log.d("TASK", "i:" + i);
+            publishProgress(i);
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -109,6 +116,12 @@ class MyAsyncTask extends AsyncTask<Integer, Integer, String>
             }
         }
         return "OK";
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        super.onProgressUpdate(values);
+        tv.setText(String.valueOf(values[0]));
     }
 
     @Override
