@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -96,6 +97,17 @@ class MyAsyncTask extends AsyncTask<Integer, Integer, String>
 
     @Override
     protected String doInBackground(Integer... integers) {
-        return null;
+        int n = integers[0];
+        int i;
+        for(i=n;i>=0;i--)
+        {
+            Log.d("TASK", "i:" + i);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return "OK";
     }
 }
